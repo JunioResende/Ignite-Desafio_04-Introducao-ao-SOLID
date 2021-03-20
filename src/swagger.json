@@ -1,0 +1,214 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Challenge04 IGNITE",
+    "description": "Documentation api to help other developers",
+    "version": "1.0.0",
+    "contact": {
+      "email": "junioresende23@gmail.com"
+    }
+  },
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Create User",
+        "description": "Create a new user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "Your Name",
+                  "email": "youremail@email.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "created"
+          },
+          "400": {
+            "description": "Email already exists!"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "List all users.",
+        "description": "Only admin users can list",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          },
+          "400": {
+            "description": "User does not exists!"
+          }
+        }
+      }
+    },
+    "/users/{user_id}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Show User Profile",
+        "description": "List information for a specific user",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "description": "user uuid",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          },
+          "404": {
+            "description": "User does not exists!"
+          }
+        }
+      }
+    },
+    "/users/{user_id}/admin": {
+      "patch": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Turn User Admin",
+        "description": "Become an administrator user",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "description": "user uuid",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "admin": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "id": {
+                      "type": "string",
+                      "example": "5f6d77ff-9a54-4d7d-a876-94dc3d12f21f"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "user name sample"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "useremailsample@mail.com"
+                    },
+                    "created_at": {
+                      "type": "dateString",
+                      "example": "2021-03-16T17:59:37.284Z"
+                    },
+                    "updated_at": {
+                      "type": "dateString",
+                      "example": "2021-03-16T17:59:37.284Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User does not exists.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "User not found"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "admin": {
+          "type": "boolean",
+          "example": false
+        },
+        "id": {
+          "type": "string",
+          "example": "5f6d77ff-9a54-4d7d-a876-94dc3d12f21f"
+        },
+        "name": {
+          "type": "string",
+          "example": "user name sample"
+        },
+        "email": {
+          "type": "string",
+          "example": "useremailsample@mail.com"
+        },
+        "created_at": {
+          "type": "dateString",
+          "example": "2021-03-16T17:59:37.284Z"
+        },
+        "updated_at": {
+          "type": "dateString",
+          "example": "2021-03-16T17:59:37.284Z"
+        }
+      },
+      "xml": {
+        "name": "User"
+      }
+    }
+  }
+}
